@@ -17,11 +17,16 @@ void destroy_remote_memory();
 // The remote memory interface defined by
 // https://docs.google.com/document/d/1aTXO8ZXkvyirGcrtxPjf2cqomyVSj6OMbPk14Id2mag
 
+// RDMA
 void remote_get(block_id_t src_block_id, void *dst, size_t n);
 void remote_set(void *src, block_id_t dst_block_id, size_t n);
+
+// Scratchpad initialization
 void *create_scratchpad(size_t size);
 void destroy_scratchpad(void *scratchpad);
-void *init_scratchpad(void *scratchpad);
+
+// Scratchpad malloc (for convenience)
+void *init_scratchpad_malloc(void *scratchpad);
 void *scratch_malloc(void *scratchpad, size_t size);
 void *scratch_realloc(void *scratchpad, size_t size);
 void scratch_free(void *ptr, void *scratchpad);
