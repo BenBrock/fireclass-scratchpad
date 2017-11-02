@@ -29,4 +29,4 @@ void destroy_scratchpad(void *scratchpad);
 void *init_scratchpad_malloc(void *scratchpad);
 void *scratch_malloc(void *scratchpad, size_t size);
 void *scratch_realloc(void *scratchpad, size_t size);
-void scratch_free(void *ptr, void *scratchpad);
+void scratch_free(void *scratchpad, void *ptr);

@@ -72,6 +72,8 @@ void *init_scratchpad_malloc(void *scratchpad) {
   return scratchpad;
 }
 
+#include <stdio.h>
+
 void *scratch_malloc(void *scratchpad, size_t size) {
   chunk_t *chunk = (chunk_t *) scratchpad;
 
@@ -91,7 +93,7 @@ void *scratch_malloc(void *scratchpad, size_t size) {
     }
   }
 
-  if (chunk->next != NULL || chunk->size - size >= SMALLEST_MEM_UNIT) {
+  if (chunk->next == NULL || chunk->size - size >= SMALLEST_MEM_UNIT) {
     chunk_t *next_chunk = chunk->next;
     chunk->next = ((void *) chunk) + sizeof(chunk_t) + size;
     chunk->next->next = next_chunk;
@@ -102,7 +104,31 @@ void *scratch_malloc(void *scratchpad, size_t size) {
   return ((void *) chunk) + sizeof(chunk_t);
 }
 
-// For now, this blazing fast free implementation.
-void scratch_free(void *ptr, void *scratchpad) {
-  return;
+void print_mem_list(void *scratchpad) {
+  chunk_t *chunk = scratchpad;
+
+  while (chunk != NULL) {
+    printf("At chunk %d.  Size %d. %s\n", (char *) chunk - (char *) scratchpad,
+      chunk->size, (get_bit(chunk->metadata, FREE_BIT)) ? "Free." : "Occupied.");
+    if (chunk->next == NULL) {
+      printf("Final chunk.\n");
+    }
+    chunk = chunk->next;
+  }
+}
+
+void scratch_free(void *scratchpad, void *ptr) {
+  if (ptr == NULL)
+    return;
+
+  chunk_t *chunk = ptr - sizeof(chunk_t);
+
+  enable_bit(&chunk->metadata, FREE_BIT);
+
+  // If you're freeing a chunk before an already free chunk, compact them.
+  if (chunk->next != NULL && get_bit(chunk->next->metadata, FREE_BIT)) {
+    chunk_t *next_chunk = chunk->next;
+    chunk->next = next_chunk->next;
+    chunk->size += next_chunk->size + sizeof(chunk_t);
+  }
 }

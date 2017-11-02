@@ -4,6 +4,7 @@
 
 extern "C" {
   #include <remote_scratchpad.h>
+  void print_mem_list(void *scratchpad);
 }
 
 int main(int argc, char **argv) {
@@ -17,6 +18,9 @@ int main(int argc, char **argv) {
     arrs.push_back((int *) scratch_malloc(scratchpad, sizeof(int) * 128));
   }
 
+  print_mem_list(scratchpad);
+
+
   for (int i = 0; i < arrs.size(); i++) {
     for (int j = 0; j < 128; j++) {
       arrs[i][j] = i;
@@ -24,6 +28,26 @@ int main(int argc, char **argv) {
   }
 
   bool allgood = true;
+
+  std::vector <int> free_arrs = {1, 7, 2, 4};
+
+
+  for (int i = 0; i < free_arrs.size(); i++) {
+    scratch_free(scratchpad, arrs[i]);
+    print_mem_list(scratchpad);
+    arrs.erase(arrs.begin() + i);
+  }
+
+  for (int i = 0; i < 2; i++) {
+    print_mem_list(scratchpad);
+    arrs.push_back((int *) scratch_malloc(scratchpad, sizeof(int) * 128));
+  }
+
+  for (int i = 0; i < arrs.size(); i++) {
+    for (int j = 0; j < 128; j++) {
+      arrs[i][j] = i;
+    }
+  }
 
   for (int i = 0; i < arrs.size(); i++) {
     for (int j = 0; j < 128; j++) {
