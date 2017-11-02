@@ -77,6 +77,8 @@ void *init_scratchpad_malloc(void *scratchpad) {
 void *scratch_malloc(void *scratchpad, size_t size) {
   chunk_t *chunk = (chunk_t *) scratchpad;
 
+  size = (size > SMALLEST_MEM_UNIT) ? size : SMALLEST_MEM_UNIT;
+
   // While you're not at the end of the list (chunk->next == NULL)
   // and the current chunk is either not free or too small, keep
   // iterating through list.
