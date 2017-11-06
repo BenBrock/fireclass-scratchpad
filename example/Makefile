@@ -1,5 +1,6 @@
 CC = gcc
 CXX = g++
+CXXFLAGS=-g -std=c++11 -Wall -pedantic
 C_INCLUDE_PATH = ../mock-interface
 CPLUS_INCLUDE_PATH = $(C_INCLUDE_PATH)
 

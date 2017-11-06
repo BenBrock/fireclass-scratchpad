@@ -36,7 +36,7 @@ int main(int argc, char **argv) {
   scratch_free(scratchpad, e);
   print_mem_list(scratchpad);
 
-  destroy_scratchpad(scratchpad);
+  destroy_scratchpad(scratchpad, n);
 
   return 0;
 }

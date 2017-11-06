@@ -2,6 +2,7 @@
 #include <string.h>
 #include <inttypes.h>
 #include <unistd.h>
+#include <sys/mman.h>
 
 #include "remote_scratchpad.h"
 
@@ -29,11 +30,11 @@ void remote_set(void *src, block_id_t dst_block_id, size_t n) {
 }
 
 void *create_scratchpad(size_t size) {
-  return malloc(size);
+  return mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1, 0);
 }
 
-void destroy_scratchpad(void *scratchpad) {
-  free(scratchpad);
+void destroy_scratchpad(void *scratchpad, size_t size) {
+  return munmap(scratchpad, size);
 }
 
 // lil helper stuff for scratch_malloc
