@@ -66,6 +66,6 @@ int main(int argc, char **argv) {
     printf("Malloc did not behave as expected.\n");
   }
 
-  destroy_scratchpad(scratchpad);
+  destroy_scratchpad(scratchpad, n);
   return 0;
 }

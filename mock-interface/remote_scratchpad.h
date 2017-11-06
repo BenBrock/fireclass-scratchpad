@@ -23,7 +23,7 @@ void remote_set(void *src, block_id_t dst_block_id, size_t n);
 
 // Scratchpad initialization
 void *create_scratchpad(size_t size);
-void destroy_scratchpad(void *scratchpad);
+void destroy_scratchpad(void *scratchpad, size_t size);
 
 // Scratchpad malloc (for convenience)
 void *init_scratchpad_malloc(void *scratchpad);
