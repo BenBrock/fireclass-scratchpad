@@ -31,3 +31,11 @@ std::vector <kmer_t> read_kmers(std::string fname) {
   }
   return kmers;
 }
+
+void write_kmers(std::list <kmer_t> kmers, std::string fname) {
+  std::ofstream fout(fname);
+  for (auto const &kmer : kmers) {
+    fout << kmer.key << (char) 0x09 << kmer.fb_ext << std::endl;
+  }
+  fout.close();
+}
