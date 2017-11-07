@@ -4,6 +4,8 @@ extern "C" {
   #include <remote_scratchpad.h>
 }
 
+#include <cstring>
+
 class CachedRead {
 public:
   size_t n_blocks, block_size;

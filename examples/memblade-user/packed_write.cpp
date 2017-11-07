@@ -10,7 +10,7 @@ extern "C" {
 
 int main(int argc, char **argv) {
   init_remote_memory(4096, 1000, 1, 1);
-  PackedWrite write(1000, 4096);
+  PackedWrite write(4096, 1000);
 
   int n = 2;
 

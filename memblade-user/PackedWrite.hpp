@@ -32,12 +32,13 @@ public:
 
   // Performing a packed write to a memory blade
   // of size n blocks of block_size bytes.
-  PackedWrite(size_t n_blocks, size_t block_size) :
+  PackedWrite(size_t block_size, size_t n_blocks) :
     n_blocks(n_blocks), block_size(block_size) {
       size_bytes = begin_address + n_blocks*block_size;
   }
 
-  void write(size_t addr, size_t size, void *data) {
+  // TODO: Automatically issue once 'writes' becomes too large.
+  void write(size_t addr, size_t size, const void *data) {
     size_t end_addr = addr + size;
     for (size_t cur_addr = addr; cur_addr < end_addr; cur_addr = ((cur_addr/block_size)+1)*block_size) {
       size_t block = cur_addr / block_size;

@@ -27,5 +27,17 @@ public:
     return key.substr(1, std::string::npos) + forwardExt();
   }
 
+  void print() const {
+    printf("%s %s\n", key.c_str(), fb_ext.c_str());
+  }
+
   kmer_t() {}
 };
+
+std::string pack_kmer(const kmer_t &kmer) {
+  return kmer.key + kmer.fb_ext;
+}
+
+kmer_t unpack_kmer(const std::string &kmer) {
+  return kmer_t(kmer.substr(0, kmer.length()-2), kmer.substr(kmer.length()-2, 2));
+}
