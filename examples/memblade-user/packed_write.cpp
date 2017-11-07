@@ -18,7 +18,7 @@ int main(int argc, char **argv) {
   write.write(1034, sizeof(int), &n);
   char *x = (char *) malloc(5000);
   for (int i = 0; i < 5000; i++) {
-    x[i] = (char) i;
+    x[i] = 'a' + (i % 10);
   }
   write.write(4000, 5000, x);
   free(x);
