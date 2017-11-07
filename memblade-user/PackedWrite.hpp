@@ -43,7 +43,7 @@ public:
       size_t block = cur_addr / block_size;
       size_t block_end_addr = (block+1) * block_size;
       size_t cur_size = std::min(block_end_addr - cur_addr, end_addr - cur_addr);
-      writes[block].push_back(Write(cur_addr, cur_size, ((char *) data) + (cur_addr - addr)));
+      writes[block].push_back(Write(cur_addr, cur_size, (char *) data + (cur_addr - addr)));
     }
   }
 
