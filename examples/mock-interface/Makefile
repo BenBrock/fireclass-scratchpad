@@ -1,9 +1,9 @@
 CC = gcc
 CXX = g++
-C_INCLUDE_PATH = ../mock-interface
+C_INCLUDE_PATH = ../../mock-interface
 CPLUS_INCLUDE_PATH = $(C_INCLUDE_PATH)
 
-MOCK_PATH = ../mock-interface
+MOCK_PATH = ../../mock-interface
 MOCK_SRC = $(MOCK_PATH)/remote_scratchpad.c
 MOCK_OBJ = $(MOCK_SRC:.c=.o)
 
