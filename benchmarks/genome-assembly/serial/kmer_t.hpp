@@ -2,6 +2,8 @@
 
 #include <string>
 
+#define KMER_LEN 19
+
 class kmer_t {
 public:
   std::string key;
