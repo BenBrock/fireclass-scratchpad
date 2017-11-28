@@ -1,7 +1,7 @@
 #include <cstdlib>
 #include <vector>
 #include <list>
-#include <map>
+#include <unordered_map>
 #include <numeric>
 #include "kmer_t.hpp"
 #include "read_kmers.hpp"
@@ -10,7 +10,7 @@ int main(int argc, char **argv) {
   std::vector <kmer_t> kmers = read_kmers("test.dat");
   printf("%d kmers read.\n", kmers.size());
 
-  std::map <std::string, kmer_t> kmer_hash;
+  std::unordered_map <std::string, kmer_t> kmer_hash;
   std::list <kmer_t> start_nodes;
   for (const auto &kmer : kmers) {
     kmer_hash[kmer.key] = kmer;
