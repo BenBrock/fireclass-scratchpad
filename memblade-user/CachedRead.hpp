@@ -33,6 +33,8 @@ public:
       size_bytes = begin_address + n_blocks*block_size;
   }
 
+  CachedRead() {}
+
   void read(size_t addr, size_t size, void *dst) {
     size_t end_addr = addr + size;
     for (size_t cur_addr = addr; cur_addr < end_addr; cur_addr = ((cur_addr/block_size)+1)*block_size) {

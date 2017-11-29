@@ -27,15 +27,28 @@ public:
   size_t n_blocks, block_size;
   size_t begin_address = 0;
   size_t size_bytes;
+  size_t max_pack;
   // block -> writes
   std::map <int, std::list <Write>> writes;
 
+  size_t n_bytes() {
+    size_t size = 0;
+    for (const auto &write_it : writes) {
+      for (const auto &write : write_it.second) {
+        size += write.size;
+      }
+    }
+    return size;
+  }
+
   // Performing a packed write to a memory blade
   // of size n blocks of block_size bytes.
-  PackedWrite(size_t block_size, size_t n_blocks) :
-    n_blocks(n_blocks), block_size(block_size) {
+  PackedWrite(size_t block_size, size_t n_blocks, size_t max_pack = 1024*1024) :
+    n_blocks(n_blocks), block_size(block_size), max_pack(max_pack) {
       size_bytes = begin_address + n_blocks*block_size;
   }
+
+  PackedWrite() {}
 
   // TODO: Automatically issue once 'writes' becomes too large.
   void write(size_t addr, size_t size, const void *data) {
@@ -45,6 +58,10 @@ public:
       size_t block_end_addr = (block+1) * block_size;
       size_t cur_size = std::min(block_end_addr - cur_addr, end_addr - cur_addr);
       writes[block].push_back(Write(cur_addr, cur_size, (char *) data + (cur_addr - addr)));
+    }
+
+    if (n_bytes() > max_pack) {
+      issue();
     }
   }
 
